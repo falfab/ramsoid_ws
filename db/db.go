@@ -24,7 +24,7 @@ func Init() error {
 	return nil
 }
 
-func InsertKeys(record *models.Record) {
+func InsertRecord(record *models.Record) {
 	tx, err := db.Begin()
 	if err != nil {
 		log.Fatal(err)
@@ -39,6 +39,17 @@ func InsertKeys(record *models.Record) {
 		log.Fatal(err)
 	}
 	tx.Commit()
+}
+
+func CheckKey(record *models.Record) bool {
+	rows, err := db.Query(SelectKey, record.ID, record.Key)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return rows.Next()
+
+	// true if exists at least one record
+	//return rows.Next()
 }
 
 func Close() {

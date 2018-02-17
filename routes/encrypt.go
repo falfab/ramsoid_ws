@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"ramsoid_ws/models"
+	"ramsoid_ws/db"
 )
 
 func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,6 +17,9 @@ func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	println("ID: " + record.ID)
 	println("KEY: " + record.Key)
+
+	db.InsertRecord(&record)
+
 	println("--------------------------------")
 	w.WriteHeader(200)
 }
@@ -30,5 +34,11 @@ func DecryptionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	println("ID: " + record.ID)
 	println("KEY: " + record.Key)
+
+	if db.CheckKey(&record) {
+		w.WriteHeader(200)
+	} else {
+		w.WriteHeader(999)
+	}
 
 }

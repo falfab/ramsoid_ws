@@ -9,3 +9,7 @@ CREATE TABLE IF NOT EXISTS Keys(
 const Insert = `
 	INSERT INTO Keys (ID, Key) VALUES (?, ?)
 `
+
+const SelectKey  = `
+	SELECT ID, Key FROM Keys WHERE ID = ? AND Key = ?
+`

@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"ramsoid_ws/routes"
 	"ramsoid_ws/db"
-	"ramsoid_ws/models"
 )
 
 func main()  {
@@ -14,7 +13,6 @@ func main()  {
 	if err := db.Init(); err != nil {
 		log.Fatal(err)
 	}
-	db.InsertKeys(&models.Record{Key: "ciao", ID: "1"})
 
 	defer db.Close()
 
