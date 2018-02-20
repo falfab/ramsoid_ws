@@ -46,6 +46,7 @@ func CheckKey(record *models.Record) bool {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer rows.Close()
 	return rows.Next()
 
 	// true if exists at least one record
