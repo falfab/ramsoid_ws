@@ -8,36 +8,39 @@ import (
 )
 
 func EncryptionHandler(w http.ResponseWriter, r *http.Request) {
-	println("----- New Encrypt request ------")
 	decoder := json.NewDecoder(r.Body)
 	var record models.Record
 	err := decoder.Decode(&record)
 	if err != nil {
 		println("ERROR: " + err.Error())
 	}
-	println("ID: " + record.ID)
-	println("KEY: " + record.Key)
+	println("\nPOST /enc:\n\t Key: " + record.Key + "\n\tId: " + record.ID)
 
 	db.InsertRecord(&record)
 
-	println("--------------------------------")
+	println("SUCCESS! new record inserted")
+
+	println("=======================================================")
+
 	w.WriteHeader(200)
 }
 
 func DecryptionHandler(w http.ResponseWriter, r *http.Request) {
-	println("----- New Decrypt request ------")
 	decoder := json.NewDecoder(r.Body)
 	var record models.Record
 	err := decoder.Decode(&record)
 	if err != nil {
 		println("ERROR: " + err.Error())
 	}
-	println("ID: " + record.ID)
-	println("KEY: " + record.Key)
+	println("\nPOST /dec:\n\tKey: " + record.Key + "\n\tId: " + record.ID)
+
+	defer println("=======================================================")
 
 	if db.CheckKey(&record) {
+		println("SUCCESS! key and id matches")
 		w.WriteHeader(200)
 	} else {
+		println("FAIL! key and id DO NOT matches")
 		w.WriteHeader(999)
 	}
 
